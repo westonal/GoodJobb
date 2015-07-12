@@ -27,6 +27,10 @@ public final class Zipper {
         noCompressPatterns.add(new FileExtensionCompressionPattern(extension));
     }
 
+    public void addNoCompressRegex(String regex) {
+        noCompressPatterns.add(new RegexCompresssionPattern(regex));
+    }
+
     public ZipResult zip() throws IOException {
         ZipResult zipAction = new ZipResult();
         zipAction.zip();

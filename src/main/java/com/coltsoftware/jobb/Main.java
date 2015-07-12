@@ -34,6 +34,9 @@ public class Main {
 
         Zipper zipper = new Zipper(new File(pathname), outputName);
 
+        args.list("-0e").forEach(zipper::addNoCompressExtension);
+        args.list("-0r").forEach(zipper::addNoCompressRegex);
+
         if (verbose) {
             out.println("Creating zip");
             out.println("These patterns will not be compressed");
@@ -61,5 +64,9 @@ public class Main {
                 " -pn <package>  Package name for OBB file\n" +
                 " -pv <version>  Package version for OBB file\n" +
                 " -patch         Is patch not main");
+        out.println();
+        out.println("0% compression options (repeatable)");
+        out.println(" -0e <extension> Do not compress this extension. e.g. -0e .abc");
+        out.println(" -0r <regex>     Do not compress files matching this regex. e.g. -0r .*\\\\file.abc");
     }
 }

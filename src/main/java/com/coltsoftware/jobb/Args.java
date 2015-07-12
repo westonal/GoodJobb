@@ -1,6 +1,8 @@
 package com.coltsoftware.jobb;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Args {
     private String[] args;
@@ -69,5 +71,14 @@ public class Args {
             return new File(output, name);
         else
             return new File(name);
+    }
+
+    public List<String> list(String flag) {
+        List<String> result = new ArrayList<>();
+        for (int i = 0; i < args.length - 1; i++) {
+            String arg = args[i];
+            if (flag.equals(arg)) result.add(args[i + 1]);
+        }
+        return result;
     }
 }
