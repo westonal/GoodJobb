@@ -18,14 +18,18 @@ import java.util.List;
 public class XmlBuilder {
 
     private Zipper.ZipResult zipperResult;
+    private Args args;
 
-    public XmlBuilder(Zipper.ZipResult zipperResult) {
+    public XmlBuilder(Zipper.ZipResult zipperResult, Args args) {
         this.zipperResult = zipperResult;
+        this.args = args;
     }
 
     public void build(File file) {
         try {
-            buildXml(zipperResult.getAddedFiles(), file);
+            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            new BuildAction(documentBuilder).buildXml(zipperResult.getAddedFiles(), file);
         } catch (ParserConfigurationException e) {
             throw new RuntimeException(e);
         } catch (TransformerException e) {
@@ -33,47 +37,57 @@ public class XmlBuilder {
         }
     }
 
-    private static void buildXml(List<Zipper.ZipResult.ZipEntryDetails> addedFiles, File target) throws ParserConfigurationException, TransformerException {
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+    private class BuildAction {
+        private Document document;
+        private Element resources;
 
-        Document document = documentBuilder.newDocument();
-        Element resources = document.createElement("resources");
-        document.appendChild(resources);
+        BuildAction(DocumentBuilder documentBuilder) {
+            document = documentBuilder.newDocument();
+            resources = document.createElement("resources");
+            document.appendChild(resources);
+        }
 
-        for (Zipper.ZipResult.ZipEntryDetails file : addedFiles) {
-            Element string = document.createElement("string");
-            String text = encodeFileName(file);
-            string.appendChild(document.createTextNode(text));
-            string.setAttribute("name", getNameAttribute(file));
+        private void buildXml(List<Zipper.ZipResult.ZipEntryDetails> addedFiles, File target) throws TransformerException {
+
+            createResourceElement("integer", args.getForename() + "ZipSize", String.valueOf(zipperResult.getSize()));
+            createResourceElement("integer", args.getForename() + "ZipVersion", String.valueOf(args.getPackageVersion()));
+
+            for (Zipper.ZipResult.ZipEntryDetails file : addedFiles)
+                createResourceElement("string", getNameAttribute(file), encodeFileName(file));
+
+            saveXml(target);
+        }
+
+        private void createResourceElement(String type, String name, String value) {
+            Element string = document.createElement(type);
+            string.appendChild(document.createTextNode(value));
+            string.setAttribute("name", name);
             resources.appendChild(string);
         }
 
-        saveXml(target, document);
-    }
+        private String encodeFileName(Zipper.ZipResult.ZipEntryDetails file) {
+            return "obb:" + file.getRelativeFileName().replace("\\", "\\\\");
+        }
 
-    private static String encodeFileName(Zipper.ZipResult.ZipEntryDetails file) {
-        return "obb:" + file.getRelativeFileName().replace("\\", "\\\\");
-    }
+        private void saveXml(File target) throws TransformerException {
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(document);
+            StreamResult result = new StreamResult(target);
 
-    private static void saveXml(File target, Document document) throws TransformerException {
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        DOMSource source = new DOMSource(document);
-        StreamResult result = new StreamResult(target);
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 
-        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+            transformer.transform(source, result);
+        }
 
-        transformer.transform(source, result);
-    }
-
-    private static String getNameAttribute(Zipper.ZipResult.ZipEntryDetails file) {
-        String relativeFileName = file.getRelativeFileName();
-        int extension = relativeFileName.lastIndexOf('.');
-        if (extension != -1)
-            relativeFileName = relativeFileName.substring(0, extension);
-        relativeFileName = relativeFileName.replaceAll("[\\\\/]", "_").toLowerCase();
-        return relativeFileName;
+        private String getNameAttribute(Zipper.ZipResult.ZipEntryDetails file) {
+            String relativeFileName = file.getRelativeFileName();
+            int extension = relativeFileName.lastIndexOf('.');
+            if (extension != -1)
+                relativeFileName = relativeFileName.substring(0, extension);
+            relativeFileName = relativeFileName.replaceAll("[\\\\/]", "_").toLowerCase();
+            return relativeFileName;
+        }
     }
 }

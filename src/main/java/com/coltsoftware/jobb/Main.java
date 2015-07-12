@@ -71,7 +71,7 @@ public class Main {
 
         File resourceOutput = args.getResourceOutput();
         if (resourceOutput != null) {
-            new XmlBuilder(zipResult).build(resourceOutput);
+            new XmlBuilder(zipResult, args).build(resourceOutput);
             if (verbose)
                 out.println("Resource xml output to " + resourceOutput);
         }
