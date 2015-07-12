@@ -18,9 +18,6 @@ public final class Zipper {
         this.inPath = inPath;
         this.outPath = outPath;
         trim = inPath.getAbsolutePath().length() + 1;
-        addNoCompressExtension(".mp3");
-        addNoCompressExtension(".jpg");
-        addNoCompressExtension(".png");
     }
 
     public void addNoCompressExtension(String extension) {
