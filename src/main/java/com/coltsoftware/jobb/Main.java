@@ -39,8 +39,10 @@ public class Main {
 
         if (verbose) {
             out.println("Creating zip");
-            out.println("These patterns will not be compressed");
-            zipper.getNoCompressPatterns().forEach(out::println);
+            if (zipper.getNoCompressPatterns().size() > 0) {
+                out.println("These patterns will not be compressed");
+                zipper.getNoCompressPatterns().forEach(out::println);
+            }
         }
 
         Zipper.ZipResult zipResult = zipper.zip();
