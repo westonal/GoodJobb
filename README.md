@@ -18,3 +18,7 @@ Good Jobb -- Create OBB files for use on Android
  -0e <extension> Do not compress this extension. e.g. -0e .abc
  -0r <regex>     Do not compress files matching this regex. e.g. -0r .*\\file.abc
 ```
+
+Compile yourself, or download [GoodJobb.jar](https://github.com/westonized/GoodJobb/raw/master/GoodJobb.jar) and use like this:
+
+````java -jar GoodJobb.jar <args as detailed above>````
