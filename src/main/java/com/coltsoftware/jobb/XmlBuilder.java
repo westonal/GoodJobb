@@ -49,8 +49,8 @@ public class XmlBuilder {
 
         private void buildXml(List<Zipper.ZipResult.ZipEntryDetails> addedFiles, File target) throws TransformerException {
 
-            createResourceElement("integer", args.getForename() + "ZipSize", String.valueOf(zipperResult.getSize()));
-            createResourceElement("integer", args.getForename() + "ZipVersion", String.valueOf(args.getPackageVersion()));
+            createResourceElement("integer", args.getForename() + "ObbSize", String.valueOf(zipperResult.getSize()));
+            createResourceElement("integer", args.getForename() + "ObbVersion", String.valueOf(args.getPackageVersion()));
 
             for (Zipper.ZipResult.ZipEntryDetails file : addedFiles)
                 createResourceElement("string", getNameAttribute(file), encodeFileName(file));
