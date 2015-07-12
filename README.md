@@ -1,3 +1,8 @@
+#Good Jobb
+
+Trouble with Android's Jobb tool? Or just need more control over compression.
+
+```
 Good Jobb -- Create OBB files for use on Android
 
  -d <directory> Use <directory> as input for OBB files
@@ -12,3 +17,4 @@ Good Jobb -- Create OBB files for use on Android
 0% compression options (repeatable)
  -0e <extension> Do not compress this extension. e.g. -0e .abc
  -0r <regex>     Do not compress files matching this regex. e.g. -0r .*\\file.abc
+```
