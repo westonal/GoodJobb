@@ -7,13 +7,32 @@ import static java.lang.System.out;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] stringArgs) throws IOException {
 
-        String pathname = ;
-        String outputName = ;
-        boolean verbose = true;
+        Args args = new Args(stringArgs);
+        boolean verbose = args.isVerbose();
 
-        Zipper zipper = new Zipper(new File(pathname), new File(outputName));
+        if (args.isHelp()) {
+            printHelp();
+            return;
+        }
+
+        String pathname = args.getDirectory();
+        if (pathname == null) {
+            out.println("A directory to be recursed through -d <directory> is required when creating an OBB filesystem.\n");
+            printHelp();
+            return;
+        }
+
+        File outputName = args.getObbFile();
+        if (outputName == null) {
+            out.println("An output filename -o <outputfile> is required when creating an OBB filesystem.");
+            out.println("Or let the tool name it by specifying -pn <package> and -pv <version>.\n");
+            printHelp();
+            return;
+        }
+
+        Zipper zipper = new Zipper(new File(pathname), outputName);
 
         if (verbose) {
             out.println("Creating zip");
@@ -29,5 +48,18 @@ public class Main {
         }
 
         out.println("Complete");
+    }
+
+    private static void printHelp() {
+        out.println("Good Jobb -- Create OBB files for use on Android\n" +
+                "\n" +
+                " -d <directory> Use <directory> as input for OBB files\n" +
+                " -o <filename>  Write OBB file out to <filename>\n" +
+                " -o <directory> Write OBB file out to <directory>\n" +
+                " -v             Verbose mode\n" +
+                " -h             Help; this usage screen\n" +
+                " -pn <package>  Package name for OBB file\n" +
+                " -pv <version>  Package version for OBB file\n" +
+                " -patch         Is patch not main");
     }
 }
