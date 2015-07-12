@@ -12,7 +12,7 @@ public final class Zipper {
     private final File inPath;
     private final File outPath;
     private final int trim;
-    private final List<Pattern> noCompressPatterns = new ArrayList<>();
+    private final List<CompressionPattern> noCompressPatterns = new ArrayList<>();
 
     public Zipper(File inPath, File outPath) {
         this.inPath = inPath;
@@ -24,8 +24,7 @@ public final class Zipper {
     }
 
     public void addNoCompressExtension(String extension) {
-        Pattern pattern = Pattern.compile(".*" + Pattern.quote(extension) + "$", Pattern.CASE_INSENSITIVE);
-        noCompressPatterns.add(pattern);
+        noCompressPatterns.add(new FileExtensionCompressionPattern(extension));
     }
 
     public ZipResult zip() throws IOException {
@@ -85,10 +84,10 @@ public final class Zipper {
 
         private void addFileToZip(ZipOutputStream out, File infile) throws IOException {
             try (FileInputStream in = new FileInputStream(infile)) {
-                String substring = infile.getAbsolutePath().substring(trim);
-                ZipEntry e = new ZipEntry(substring);
-                ZipEntryDetails entryDetails = new ZipEntryDetails(substring);
-                if (noCompress(substring)) {
+                String fileNameInZip = infile.getAbsolutePath().substring(trim);
+                ZipEntry e = new ZipEntry(fileNameInZip);
+                ZipEntryDetails entryDetails = new ZipEntryDetails(fileNameInZip);
+                if (noCompress(fileNameInZip)) {
                     entryDetails.setCompressed(false);
                     out.setLevel(0);
                 } else {
@@ -102,9 +101,9 @@ public final class Zipper {
         }
     }
 
-    private boolean noCompress(String extension) {
-        for (Pattern pattern : noCompressPatterns)
-            if (pattern.matcher(extension).matches()) return true;
+    private boolean noCompress(String fileNameInZip) {
+        for (CompressionPattern pattern : noCompressPatterns)
+            if (pattern.CompressFile(fileNameInZip)) return true;
         return false;
     }
 
@@ -116,7 +115,7 @@ public final class Zipper {
             out.write(copyBuffer, 0, count);
     }
 
-    public List<Pattern> getNoCompressPatterns() {
+    public List<CompressionPattern> getNoCompressPatterns() {
         return noCompressPatterns;
     }
 }
