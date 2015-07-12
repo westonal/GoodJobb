@@ -81,4 +81,11 @@ public class Args {
         }
         return result;
     }
+
+    public File getResourceOutput() {
+        String resOutput = getValue("-res");
+        if (resOutput == null)
+            return null;
+        return new File(resOutput);
+    }
 }

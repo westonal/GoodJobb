@@ -1,7 +1,21 @@
 package com.coltsoftware.jobb;
 
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import static java.lang.System.out;
 
@@ -52,7 +66,15 @@ public class Main {
             zipResult.getAddedFiles().forEach(out::println);
         }
 
+        zipResult.getAddedFiles().forEach(out::println);
         out.println("Complete");
+
+        File resourceOutput = args.getResourceOutput();
+        if (resourceOutput != null) {
+            new XmlBuilder(zipResult).build(resourceOutput);
+            if (verbose)
+                out.println("Resource xml output to " + resourceOutput);
+        }
     }
 
     private static void printHelp() {
@@ -61,6 +83,7 @@ public class Main {
                 " -d <directory> Use <directory> as input for OBB files\n" +
                 " -o <filename>  Write OBB file out to <filename>\n" +
                 " -o <directory> Write OBB file out to <directory>\n" +
+                " -res <resFile> Write a handy resource.xml file to <resFile>\n" +
                 " -v             Verbose mode\n" +
                 " -h             Help; this usage screen\n" +
                 " -pn <package>  Package name for OBB file\n" +
