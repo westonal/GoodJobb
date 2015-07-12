@@ -4,6 +4,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
+import java.util.zip.CRC32;
+import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -90,15 +92,31 @@ public final class Zipper {
                 ZipEntryDetails entryDetails = new ZipEntryDetails(fileNameInZip);
                 if (noCompress(fileNameInZip)) {
                     entryDetails.setCompressed(false);
-                    out.setLevel(0);
+                    out.setLevel(Deflater.NO_COMPRESSION);
+                    e.setMethod(ZipOutputStream.STORED);
+                    e.setSize(infile.length());
+                    e.setCompressedSize(infile.length());
+                    e.setCrc(getCrc32(infile));
                 } else {
                     entryDetails.setCompressed(true);
-                    out.setLevel(9);
+                    out.setLevel(Deflater.BEST_COMPRESSION);
+                    out.setMethod(ZipOutputStream.DEFLATED);
                 }
                 out.putNextEntry(e);
                 copyInStreamToOutStream(in, out);
+                out.closeEntry();
                 addedFiles.add(entryDetails);
             }
+        }
+
+        private long getCrc32(File infile) throws IOException {
+            CRC32 crc32 = new CRC32();
+            try (FileInputStream in = new FileInputStream(infile)) {
+                int count;
+                while ((count = in.read(copyBuffer)) != -1)
+                    crc32.update(copyBuffer, 0, count);
+            }
+            return crc32.getValue();
         }
     }
 
