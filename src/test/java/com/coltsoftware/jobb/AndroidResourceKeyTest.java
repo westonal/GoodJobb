@@ -31,4 +31,15 @@ public final class AndroidResourceKeyTest {
         assertEquals("success", AndroidResourceKey.fromString("s$%^&*()uc[{]}'@c!\"£$%^ess").toString());
     }
 
+    @Test
+    public void spaces_go_to_underscore() {
+        assertEquals("test_space", AndroidResourceKey.fromString("test space").toString());
+    }
+
+    @Test
+    public void test_all_elements() {
+        assertEquals("path1_path2_dir_three_file_name_with_capitals_and_symbols",
+                AndroidResourceKey.fromString("path1\\Path2\\DirThree\\File name WithCapitals and sym\'bols").toString());
+    }
+
 }

@@ -12,10 +12,15 @@ public final class AndroidResourceKey {
     private AndroidResourceKey(String text) {
         this.text = text;
         removeSlashes();
+        replaceSpaces();
         insertUnderscoresBeforeCapitals();
         lowerCase();
         removeIllegalCharacters();
         ensureLegalStartCharacter();
+    }
+
+    private void replaceSpaces() {
+        text = text.replace(' ', '_');
     }
 
     private void insertUnderscoresBeforeCapitals() {
