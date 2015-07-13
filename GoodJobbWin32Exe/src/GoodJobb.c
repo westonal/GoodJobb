@@ -36,7 +36,7 @@ char *buildCommandLine(char *prefix, int argc, char *argv[]) {
 
 int main(int argc, char *argv[]) {
 	char *prefix =
-			"java -jar %ChocolateyInstall%\\lib\\goodjobb\\tools\\goodjobb.jar";
+			"\"\"%JAVA_HOME%\\bin\\java\"\" -jar %ChocolateyInstall%\\lib\\goodjobb\\tools\\goodjobb.jar";
 	char *commandLine = buildCommandLine(prefix, argc, argv);
 	system(commandLine);
 	free(commandLine);
