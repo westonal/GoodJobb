@@ -11,4 +11,9 @@ public final class AndroidResourceKeyTest {
         assertEquals("main_obb_version", AndroidResourceKey.fromString("mainObbVersion").toString());
     }
 
+    @Test
+    public void inserts_underscores_before_numeral() {
+        assertEquals("_7abc", AndroidResourceKey.fromString("7abc").toString());
+    }
+
 }

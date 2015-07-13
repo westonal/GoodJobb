@@ -24,7 +24,7 @@ public final class AndroidResourceKey {
     }
 
     private void ensureLegalStartCharacter() {
-        if (Pattern.matches("^[0-9]", text))
+        if (Pattern.matches("^[0-9].*", text))
             text = "_" + text;
     }
 
