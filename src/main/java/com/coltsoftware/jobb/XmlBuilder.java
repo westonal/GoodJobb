@@ -51,18 +51,22 @@ public class XmlBuilder {
 
         private void buildXml(List<Zipper.ZipResult.ZipEntryDetails> addedFiles, File target) throws TransformerException {
 
-            createResourceElement("integer", AndroidResourceKey.fromString(args.getForename() + "ObbSize"), String.valueOf(zipperResult.getSize()));
-            createResourceElement("integer", AndroidResourceKey.fromString(args.getForename() + "ObbVersion"), String.valueOf(args.getPackageVersion()));
+            createResourceElement("integer", args.getForename() + "ObbSize", String.valueOf(zipperResult.getSize()));
+            createResourceElement("integer", args.getForename() + "ObbVersion", String.valueOf(args.getPackageVersion()));
 
             for (Zipper.ZipResult.ZipEntryDetails file : addedFiles)
-                createResourceElement("string", getNameAttribute(file), encodeFileName(file));
+                createResourceElement("string", getNameAttribute(file), buildFileName(file));
 
             saveXml(target);
         }
 
-        private void createResourceElement(String type, AndroidResourceKey name, String value) {
+        private void createResourceElement(String type, String name, String value) {
+            createResourceElement(type, AndroidResourceKey.fromString(name), AndroidResourceValue.fromString(value));
+        }
+
+        private void createResourceElement(String type, AndroidResourceKey name, AndroidResourceValue value) {
             Element string = document.createElement(type);
-            string.appendChild(document.createTextNode(value));
+            string.appendChild(document.createTextNode(value.toString()));
             string.setAttribute("name", name.toString());
             resources.appendChild(string);
         }
@@ -79,21 +83,16 @@ public class XmlBuilder {
             transformer.transform(source, result);
         }
 
-        private AndroidResourceKey getNameAttribute(Zipper.ZipResult.ZipEntryDetails file) {
+        private String getNameAttribute(Zipper.ZipResult.ZipEntryDetails file) {
             String relativeFileName = file.getRelativeFileName();
             int extension = relativeFileName.lastIndexOf('.');
             if (extension != -1)
                 relativeFileName = relativeFileName.substring(0, extension);
-            return AndroidResourceKey.fromString(relativeFileName);
+            return relativeFileName;
         }
     }
 
-    private String encodeFileName(Zipper.ZipResult.ZipEntryDetails file) {
-        String textValue = prefix + file.getRelativeFileName();
-        return encodeAndroidResourceValue(textValue);
-    }
-
-    private static String encodeAndroidResourceValue(String textValue) {
-        return textValue.replace("\\", "\\\\").replace("'", "\\'");
+    private String buildFileName(Zipper.ZipResult.ZipEntryDetails file) {
+        return prefix + file.getRelativeFileName();
     }
 }
