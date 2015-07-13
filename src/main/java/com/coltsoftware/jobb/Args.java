@@ -92,4 +92,9 @@ public class Args {
     public String getForename() {
         return isMain() ? "main" : "patch";
     }
+
+    public String getPrefix() {
+        String prefix = getValue("-rp");
+        return prefix == null ? "" : prefix;
+    }
 }

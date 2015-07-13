@@ -84,6 +84,7 @@ public class Main {
                 " -o <filename>  Write OBB file out to <filename>\n" +
                 " -o <directory> Write OBB file out to <directory>\n" +
                 " -res <resFile> Write a handy resource.xml file to <resFile>\n" +
+                " -rp <prefix>   In the -res file, prefix each string value with this <prefix>\n" +
                 " -v             Verbose mode\n" +
                 " -h             Help; this usage screen\n" +
                 " -pn <package>  Package name for OBB file\n" +

@@ -17,12 +17,14 @@ import java.util.List;
 
 public class XmlBuilder {
 
+    private final String prefix;
     private Zipper.ZipResult zipperResult;
     private Args args;
 
     public XmlBuilder(Zipper.ZipResult zipperResult, Args args) {
         this.zipperResult = zipperResult;
         this.args = args;
+        prefix = args.getPrefix();
     }
 
     public void build(File file) {
@@ -49,8 +51,8 @@ public class XmlBuilder {
 
         private void buildXml(List<Zipper.ZipResult.ZipEntryDetails> addedFiles, File target) throws TransformerException {
 
-            createResourceElement("integer", args.getForename() + "ObbSize", String.valueOf(zipperResult.getSize()));
-            createResourceElement("integer", args.getForename() + "ObbVersion", String.valueOf(args.getPackageVersion()));
+            createResourceElement("integer", AndroidResourceKey.fromString(args.getForename() + "ObbSize"), String.valueOf(zipperResult.getSize()));
+            createResourceElement("integer", AndroidResourceKey.fromString(args.getForename() + "ObbVersion"), String.valueOf(args.getPackageVersion()));
 
             for (Zipper.ZipResult.ZipEntryDetails file : addedFiles)
                 createResourceElement("string", getNameAttribute(file), encodeFileName(file));
@@ -58,15 +60,11 @@ public class XmlBuilder {
             saveXml(target);
         }
 
-        private void createResourceElement(String type, String name, String value) {
+        private void createResourceElement(String type, AndroidResourceKey name, String value) {
             Element string = document.createElement(type);
             string.appendChild(document.createTextNode(value));
-            string.setAttribute("name", name);
+            string.setAttribute("name", name.toString());
             resources.appendChild(string);
-        }
-
-        private String encodeFileName(Zipper.ZipResult.ZipEntryDetails file) {
-            return "obb:" + file.getRelativeFileName().replace("\\", "\\\\");
         }
 
         private void saveXml(File target) throws TransformerException {
@@ -81,13 +79,21 @@ public class XmlBuilder {
             transformer.transform(source, result);
         }
 
-        private String getNameAttribute(Zipper.ZipResult.ZipEntryDetails file) {
+        private AndroidResourceKey getNameAttribute(Zipper.ZipResult.ZipEntryDetails file) {
             String relativeFileName = file.getRelativeFileName();
             int extension = relativeFileName.lastIndexOf('.');
             if (extension != -1)
                 relativeFileName = relativeFileName.substring(0, extension);
-            relativeFileName = relativeFileName.replaceAll("[\\\\/]", "_").toLowerCase();
-            return relativeFileName;
+            return AndroidResourceKey.fromString(relativeFileName);
         }
+    }
+
+    private String encodeFileName(Zipper.ZipResult.ZipEntryDetails file) {
+        String textValue = prefix + file.getRelativeFileName();
+        return encodeAndroidResourceValue(textValue);
+    }
+
+    private static String encodeAndroidResourceValue(String textValue) {
+        return textValue.replace("\\", "\\\\").replace("'", "\\'");
     }
 }
