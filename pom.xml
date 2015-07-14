@@ -5,8 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.coltsoftware</groupId>
-    <artifactId>jobb</artifactId>
+    <artifactId>GoodJobb</artifactId>
     <version>0.1</version>
+
+    <packaging>jar</packaging>
+    <properties>
+        <jdk.version>1.8</jdk.version>
+    </properties>
+    <name>GoodJobb</name>
 
     <dependencies>
         <dependency>
@@ -26,6 +32,18 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.coltsoftware.goodjobb.Main</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>

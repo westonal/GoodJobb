@@ -1,4 +1,4 @@
-package com.coltsoftware.jobb;
+package com.coltsoftware.goodjobb;
 
 import org.junit.Test;
 
