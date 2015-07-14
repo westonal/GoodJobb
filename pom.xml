@@ -41,7 +41,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>main.Main</mainClass>
+                            <mainClass>com.coltsoftware.goodjobb.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
