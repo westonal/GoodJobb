@@ -80,19 +80,20 @@ public class Main {
     private static void printHelp() {
         out.println("Good Jobb -- Create OBB files for use on Android\n" +
                 "\n" +
+                "Supported Jobb arguments:\n" +
                 " -d <directory> Use <directory> as input for OBB files\n" +
                 " -o <filename>  Write OBB file out to <filename>\n" +
                 " -o <directory> Write OBB file out to <directory>\n" +
-                " -res <resFile> Write a handy resource.xml file to <resFile>\n" +
-                " -rp <prefix>   In the -res file, prefix each string value with this <prefix>\n" +
                 " -v             Verbose mode\n" +
                 " -h             Help; this usage screen\n" +
                 " -pn <package>  Package name for OBB file\n" +
-                " -pv <version>  Package version for OBB file\n" +
-                " -patch         Is patch not main");
-        out.println();
-        out.println("0% compression options (repeatable)");
-        out.println(" -0e <extension> Do not compress this extension. e.g. -0e .abc");
-        out.println(" -0r <regex>     Do not compress files matching this regex. e.g. -0r .*\\\\file.abc");
+                " -pv <version>  Package version for OBB file\n");
+        out.println("Additional arguments:\n" +
+                " -patch         Is patch not main\n" +
+                " -res <resFile> Write a handy resource.xml file to <resFile>\n" +
+                " -rp <prefix>   In the -res file, prefix each string value with this <prefix>\n");
+        out.println("0% compression options (repeatable)\n" +
+                " -0e <extension> Do not compress this extension. e.g. -0e .abc\n" +
+                " -0r <regex>     Do not compress files matching this regex. e.g. -0r .*\\\\file.abc");
     }
 }
