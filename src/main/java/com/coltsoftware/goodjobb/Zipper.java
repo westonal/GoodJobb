@@ -1,9 +1,8 @@
-package com.coltsoftware.jobb;
+package com.coltsoftware.goodjobb;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 import java.util.zip.CRC32;
 import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
@@ -37,6 +36,10 @@ public final class Zipper {
     }
 
     public class ZipResult {
+
+        public long getSize() {
+            return outPath.length();
+        }
 
         public class ZipEntryDetails {
 
