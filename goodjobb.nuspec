@@ -5,7 +5,7 @@
     <!-- Read this before publishing packages to chocolatey.org: https://github.com/chocolatey/chocolatey/wiki/CreatePackages -->
     <id>goodjobb</id>
     <title>GoodJobb (Install)</title>
-    <version>1.0</version>
+    <version>0.1</version>
     <authors>Alan Evans</authors>
     <owners>Alan Evans</owners>
     <summary>Alternative to Android's Jobb tool</summary>
