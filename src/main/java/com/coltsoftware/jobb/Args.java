@@ -66,7 +66,7 @@ public class Args {
         if (output != null && !output.isDirectory()) return output;
         String packageName = getPackageName();
         if (packageName == null) return null;
-        String name = String.format("%s.%d.%s.obb", isMain() ? "main" : "patch", getPackageVersion(), packageName);
+        String name = String.format("%s.%d.%s.obb", getForename(), getPackageVersion(), packageName);
         if (output != null)
             return new File(output, name);
         else
@@ -80,5 +80,21 @@ public class Args {
             if (flag.equals(arg)) result.add(args[i + 1]);
         }
         return result;
+    }
+
+    public File getResourceOutput() {
+        String resOutput = getValue("-res");
+        if (resOutput == null)
+            return null;
+        return new File(resOutput);
+    }
+
+    public String getForename() {
+        return isMain() ? "main" : "patch";
+    }
+
+    public String getPrefix() {
+        String prefix = getValue("-rp");
+        return prefix == null ? "" : prefix;
     }
 }

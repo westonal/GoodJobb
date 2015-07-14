@@ -38,6 +38,10 @@ public final class Zipper {
 
     public class ZipResult {
 
+        public long getSize() {
+            return outPath.length();
+        }
+
         public class ZipEntryDetails {
 
             private boolean compressed;
