@@ -1,4 +1,4 @@
-package com.coltsoftware.jobb;
+package com.coltsoftware.goodjobb;
 
 public final class AndroidResourceValue {
     private String text;
