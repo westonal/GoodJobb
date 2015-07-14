@@ -79,6 +79,7 @@ public class Main {
 
     private static void printHelp() {
         out.println("Good Jobb -- Create OBB files for use on Android\n" +
+                "https://github.com/westonized/GoodJobb\n" +
                 "\n" +
                 "Supported Jobb arguments:\n" +
                 " -d <directory> Use <directory> as input for OBB files\n" +
