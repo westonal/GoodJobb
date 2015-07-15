@@ -52,7 +52,6 @@ public class Main {
             zipResult.getAddedFiles().forEach(out::println);
         }
 
-        zipResult.getAddedFiles().forEach(out::println);
         out.println("Complete");
 
         File resourceOutput = args.getResourceOutput();
