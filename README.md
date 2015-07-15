@@ -32,3 +32,46 @@ Or install via [Chocolatey](https://chocolatey.org/packages/goodjobb) and use li
 
 ````goodjobb <args as detailed above>````
 
+##Example
+
+```
+C:\>goodjobb -d c:\code\Contents -o c:\code -pn com.example -pv 5 -0e .jpg -v
+Creating zip
+These patterns will not be compressed
+.jpg
+Files:
+  background.jpg
+  SomeFile.txt (compressed)
+Complete
+```
+
+Creates `main.5.com.example.obb`
+
+##With resource file output
+
+```
+C:\>goodjobb -d c:\code\Contents -o c:\code -pn com.example -pv 5 -0e .jpg -res c:\code\mainobb.xml -v
+```
+
+Creates zip and mainobb.xml:
+
+```
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+    <integer name="main_obb_size">244</integer>
+    <integer name="main_obb_version">5</integer>
+    <string name="background">background.jpg</string>
+    <string name="some_file">SomeFile.txt</string>
+</resources>
+```
+
+Giving you all the paths as string resources plus obb version and size as int resources!
+
+If you use these paths, then this also means accidentally excluding an item will cause a compilation error.
+
+Need a prefix on those strings? This could be a url for `APEZProvider` use or just a prefix to separate them from asset paths. Using this for example `-rp obb:` gives:
+```
+    <string name="background">obb:background.jpg</string>
+    <string name="some_file">obb:SomeFile.txt</string>
+```
+
