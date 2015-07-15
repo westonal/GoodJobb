@@ -38,7 +38,7 @@ public class Main {
         args.list("-0r").forEach(zipper::addNoCompressRegex);
 
         if (verbose) {
-            out.println("Creating zip");
+            out.println("Creating obb zip: " + outputName);
             if (zipper.getNoCompressPatterns().size() > 0) {
                 out.println("These patterns will not be compressed");
                 zipper.getNoCompressPatterns().forEach(out::println);
