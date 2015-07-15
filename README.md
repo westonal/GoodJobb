@@ -35,7 +35,7 @@ Or install via [Chocolatey](https://chocolatey.org/packages/goodjobb) and use li
 ##Example
 
 ```
-C:\>goodjobb -d c:\code\Contents -o c:\code -pn com.example -pv 5 -0e .jpg -v
+C:\>goodjobb -d c:\code\Contents -o c:\code -pn com.example.project -pv 5 -0e .jpg -v
 Creating zip
 These patterns will not be compressed
 .jpg
@@ -45,15 +45,15 @@ Files:
 Complete
 ```
 
-Creates `main.5.com.example.obb`
+Creates `main.5.com.example.project.obb`
 
 ##With resource file output
 
 ```
-C:\>goodjobb -d c:\code\Contents -o c:\code -pn com.example -pv 5 -0e .jpg -res c:\code\mainobb.xml -v
+C:\>goodjobb -d c:\code\Contents -o c:\code -pn com.example.project -pv 5 -0e .jpg -res c:\code\mainobb.xml -v
 ```
 
-Creates zip and mainobb.xml:
+Creates obb zip and `mainobb.xml`:
 
 ```
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
