@@ -24,6 +24,11 @@ Additional arguments:
  -0r <regex>     Do not compress files matching this regex. e.g. -0r .*\\file.abc
 ```
 
-Compile yourself, or download [GoodJobb.jar](https://github.com/westonized/GoodJobb/raw/master/GoodJobb.jar) and use like this:
+Compile yourself and use like this:
 
 ````java -jar GoodJobb.jar <args as detailed above>````
+
+Or install via [Chocolatey](https://chocolatey.org/packages/goodjobb) and use like this:
+
+````goodjobb <args as detailed above>````
+
