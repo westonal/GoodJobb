@@ -34,14 +34,17 @@ public class Main {
 
         Zipper zipper = new Zipper(new File(pathname), outputName);
 
-        args.list("-0e").forEach(zipper::addNoCompressExtension);
-        args.list("-0r").forEach(zipper::addNoCompressRegex);
+        for (String extension : args.list("-0e"))
+            zipper.addNoCompressExtension(extension);
+        for (String regex : args.list("-0r"))
+            zipper.addNoCompressRegex(regex);
 
         if (verbose) {
-            out.println("Creating zip");
+            out.println("Creating obb zip: " + outputName);
             if (zipper.getNoCompressPatterns().size() > 0) {
                 out.println("These patterns will not be compressed");
-                zipper.getNoCompressPatterns().forEach(out::println);
+                for (CompressionPattern pattern : zipper.getNoCompressPatterns())
+                    out.println(pattern);
             }
         }
 
@@ -49,10 +52,10 @@ public class Main {
 
         if (verbose) {
             out.println("Files:");
-            zipResult.getAddedFiles().forEach(out::println);
+            for (Zipper.ZipResult.ZipEntryDetails file : zipResult.getAddedFiles())
+                out.println(file);
         }
 
-        zipResult.getAddedFiles().forEach(out::println);
         out.println("Complete");
 
         File resourceOutput = args.getResourceOutput();
