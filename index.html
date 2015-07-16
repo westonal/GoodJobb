@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Goodjobb by westonized</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-dark.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Goodjobb</h1>
+        <p>Alternative to Android&#39;s Jobb tool</p>
+        <p class="view"><a href="https://github.com/westonized/GoodJobb">View the Project on GitHub <small>westonized/GoodJobb</small></a></p>
+        <ul>
+          <li><a href="https://github.com/westonized/GoodJobb/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/westonized/GoodJobb/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/westonized/GoodJobb">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="good-jobb" class="anchor" href="#good-jobb" aria-hidden="true"><span class="octicon octicon-link"></span></a>Good Jobb</h1>
+
+<p>Trouble with Android's Jobb tool? Or just need more control over compression.</p>
+
+<pre><code>Good Jobb -- Create OBB files for use on Android
+
+Supported Jobb arguments:
+ -d &lt;directory&gt; Use &lt;directory&gt; as input for OBB files
+ -o &lt;filename&gt;  Write OBB file out to &lt;filename&gt;
+ -o &lt;directory&gt; Write OBB file out to &lt;directory&gt;
+ -v             Verbose mode
+ -h             Help; this usage screen
+ -pn &lt;package&gt;  Package name for OBB file
+ -pv &lt;version&gt;  Package version for OBB file
+
+Additional arguments:
+ -patch         Is patch not main
+ -res &lt;resFile&gt; Write a handy resource.xml file to &lt;resFile&gt;
+ -rp &lt;prefix&gt;   In the -res file, prefix each string value with this &lt;prefix&gt;
+
+0% compression options (repeatable)
+ -0e &lt;extension&gt; Do not compress this extension. e.g. -0e .abc
+ -0r &lt;regex&gt;     Do not compress files matching this regex. e.g. -0r .*\\file.abc
+</code></pre>
+
+<p>Compile yourself and use like this:</p>
+
+<p><code>java -jar GoodJobb.jar &lt;args as detailed above&gt;</code></p>
+
+<p>Or install via <a href="https://chocolatey.org/packages/goodjobb">Chocolatey</a> and use like this:</p>
+
+<p><code>goodjobb &lt;args as detailed above&gt;</code></p>
+
+<h2>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h2>
+
+<pre><code>C:\&gt;goodjobb -d c:\code\Contents -o c:\code -pn com.example.project -pv 5 -0e .jpg -v
+Creating zip
+These patterns will not be compressed
+.jpg
+Files:
+  background.jpg
+  SomeFile.txt (compressed)
+Complete
+</code></pre>
+
+<p>Creates <code>main.5.com.example.project.obb</code></p>
+
+<h2>
+<a id="with-resource-file-output" class="anchor" href="#with-resource-file-output" aria-hidden="true"><span class="octicon octicon-link"></span></a>With resource file output</h2>
+
+<pre><code>C:\&gt;goodjobb -d c:\code\Contents -o c:\code -pn com.example.project -pv 5 -0e .jpg -res c:\code\mainobb.xml -v
+</code></pre>
+
+<p>Creates obb zip and <code>mainobb.xml</code>:</p>
+
+<pre><code>&lt;?xml version="1.0" encoding="UTF-8" standalone="no"?&gt;
+&lt;resources&gt;
+    &lt;integer name="main_obb_size"&gt;244&lt;/integer&gt;
+    &lt;integer name="main_obb_version"&gt;5&lt;/integer&gt;
+    &lt;string name="background"&gt;background.jpg&lt;/string&gt;
+    &lt;string name="some_file"&gt;SomeFile.txt&lt;/string&gt;
+&lt;/resources&gt;
+</code></pre>
+
+<p>Giving you all the paths as string resources plus obb version and size as int resources!</p>
+
+<p>If you use these paths, then this also means accidentally excluding an item will cause a compilation error.</p>
+
+<p>Need a prefix on those strings? This could be a url for <code>APEZProvider</code> use or just a prefix to separate them from asset paths. Using this for example <code>-rp obb:</code> gives:</p>
+
+<pre><code>    &lt;string name="background"&gt;obb:background.jpg&lt;/string&gt;
+    &lt;string name="some_file"&gt;obb:SomeFile.txt&lt;/string&gt;
+</code></pre>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/westonized">westonized</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
